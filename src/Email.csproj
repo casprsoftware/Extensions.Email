@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>CASPR.Extensions.Email</AssemblyName>
+    <RootNamespace>CASPR.Extensions.Email</RootNamespace>
+    <Authors>CASPR Software</Authors>
+    <Description>Email Framework. Interfaces and base (null) implementations.</Description>
+    <PackageTags>email, messages</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
