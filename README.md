@@ -4,29 +4,18 @@ Email Framework is a lightweight and extensible library for building and sending
 
 ## Install
 
-Install packages via `dotnet`, `Install-Package` or from VS.
-
-Package name                              | Description                      
-------------------------------------------|-----------------------------
-`CASPR.EmailFramework.Core`                 | Core functionality and interfaces
-*Optional* |
-`CASPR.EmailFramework.Senders.SendGrid`     | SendGrid email sender implementation
-`CASPR.EmailFramework.TemplateEngines.Razor` | Razor email template engine
+`dotnet add package CASPR.Extensions.Email`
 
 ## Setup
 
 Add Email Framework to services.
 
 ```csharp
-services.AddEmailFramework(options=>{
+services.AddEmail(options=>{
     // set default from email address
     options.DefaultFrom = "from@example.com";
     options.DefaultFromName = "Email Test Program";
-})
-.AddSendGridSender(options=>{
-    options.ApiKey = "paste your SendGrid API Key here";
-})
-.AddRazorTemplateEngine();
+});
 ```
 
 ## Usage
