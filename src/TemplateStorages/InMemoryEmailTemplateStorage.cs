@@ -23,8 +23,18 @@ namespace CASPR.Extensions.Email.TemplateStorages
         {
             lock (_lock)
             {
+                if (cultureInfo!=null)
+                {
+                    var templateWithCulture = _templates
+                        .SingleOrDefault(t => t.Name == templateName && Equals(t.Culture, cultureInfo));
+                    if (templateWithCulture != null)
+                    {
+                        return Task.FromResult<IEmailTemplate>(templateWithCulture);
+                    }
+                }
+
                 var template = _templates
-                    .SingleOrDefault(t => t.Name == templateName && Equals(t.Culture, cultureInfo));
+                    .SingleOrDefault(t => t.Name == templateName && t.Culture == null);
                 return Task.FromResult<IEmailTemplate>(template);
             }
         }

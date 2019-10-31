@@ -258,7 +258,7 @@ namespace CASPR.Extensions.Email
 
             if (template == null)
             {
-                throw new EmailTemplateNotFoundException();
+                throw new EmailTemplateNotFoundException(templateName);
             }
 
             if (!string.IsNullOrEmpty(template.Subject))

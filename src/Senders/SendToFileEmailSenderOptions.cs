@@ -1,6 +1,6 @@
 ﻿namespace CASPR.Extensions.Email.Senders
 {
-    public class SaveToDiskEmailSenderOptions
+    public class SendToFileEmailSenderOptions
     {
         public string Directory { get; set; }
     }

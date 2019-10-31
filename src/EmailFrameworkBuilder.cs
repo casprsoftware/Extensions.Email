@@ -31,10 +31,10 @@ namespace CASPR.Extensions.Email
             return this;
         }
 
-        public EmailFrameworkBuilder AddSendToFileSender(Action<SaveToDiskEmailSenderOptions> configure)
+        public EmailFrameworkBuilder AddSendToFileSender(Action<SendToFileEmailSenderOptions> configure)
         {
-            Services.Configure<SaveToDiskEmailSenderOptions>(configure);
-            Services.Replace(ServiceDescriptor.Transient(typeof(IEmailSender), typeof(SaveToDiskEmailSender)));
+            Services.Configure<SendToFileEmailSenderOptions>(configure);
+            Services.Replace(ServiceDescriptor.Transient(typeof(IEmailSender), typeof(SendToFileEmailSender)));
             return this;
         }
     }
