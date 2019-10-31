@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using CASPR.Extensions.Email.Models;
 using Microsoft.Extensions.Options;
 
-namespace CASPR.Extensions.Email.Defaults
+namespace CASPR.Extensions.Email.Senders
 {
     /// <summary>
     /// Save email to directory,
@@ -13,7 +13,7 @@ namespace CASPR.Extensions.Email.Defaults
     /// </summary>
     public class SaveToDiskEmailSender : IEmailSender
     {
-        private SaveToDiskEmailSenderOptions _options;
+        private readonly SaveToDiskEmailSenderOptions _options;
 
         public SaveToDiskEmailSender(IOptions<SaveToDiskEmailSenderOptions> optionsAccessor)
         {
@@ -44,10 +44,5 @@ namespace CASPR.Extensions.Email.Defaults
 
             return response;
         }
-    }
-
-    public class SaveToDiskEmailSenderOptions
-    {
-        public string Directory { get; set; }
     }
 }

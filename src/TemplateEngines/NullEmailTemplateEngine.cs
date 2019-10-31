@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CASPR.Extensions.Email.Defaults
+namespace CASPR.Extensions.Email.TemplateEngines
 {
     public class NullEmailTemplateEngine : IEmailTemplateEngine
     {

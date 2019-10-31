@@ -1,5 +1,7 @@
 ﻿using System;
-using CASPR.Extensions.Email.Defaults;
+using CASPR.Extensions.Email.Senders;
+using CASPR.Extensions.Email.TemplateEngines;
+using CASPR.Extensions.Email.TemplateStorages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CASPR.Extensions.Email
@@ -14,7 +16,7 @@ namespace CASPR.Extensions.Email
             // add default implementations
             services.AddTransient<IEmailSender, NullEmailSender>();
             services.AddTransient<IEmailTemplateEngine, NullEmailTemplateEngine>();
-            services.AddTransient<IEmailTemplateLoader, NullEmailTemplateLoader>();
+            services.AddTransient<IEmailTemplateStorage, NullEmailTemplateStorage>();
             services.AddTransient<IEmailFactory, DefaultEmailFactory>();
 
             var builder = new EmailFrameworkBuilder(services);

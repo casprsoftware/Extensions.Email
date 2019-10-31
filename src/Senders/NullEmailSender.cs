@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using CASPR.Extensions.Email.Models;
 
-namespace CASPR.Extensions.Email.Defaults
+namespace CASPR.Extensions.Email.Senders
 {
     public class NullEmailSender : IEmailSender
     {

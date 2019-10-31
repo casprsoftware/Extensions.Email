@@ -2,27 +2,27 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CASPR.Extensions.Email.Defaults
+namespace CASPR.Extensions.Email
 {
     public class DefaultEmailFactory : IEmailFactory
     {
         private readonly ILogger _logger;
         private readonly EmailOptions _emailOptions;
         private readonly IEmailTemplateEngine _emailTemplateEngine;
-        private readonly IEmailTemplateLoader _emailTemplateLoader;
+        private readonly IEmailTemplateStorage _emailTemplateStorage;
         private readonly IEmailSender _emailSender;
 
         public DefaultEmailFactory(
             IOptions<EmailOptions> emailOptions, 
             IEmailTemplateEngine emailTemplateEngine,
-            IEmailTemplateLoader emailTemplateLoader,
+            IEmailTemplateStorage emailTemplateStorage,
             IEmailSender emailSender,
             ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<DefaultEmailFactory>();
             _emailOptions = emailOptions.Value;
             _emailTemplateEngine = emailTemplateEngine;
-            _emailTemplateLoader = emailTemplateLoader;
+            _emailTemplateStorage = emailTemplateStorage;
             _emailSender = emailSender;
         }
 
@@ -40,7 +40,7 @@ namespace CASPR.Extensions.Email.Defaults
             return new EmailBuilder(
                 _emailSender, 
                 _emailTemplateEngine,
-                _emailTemplateLoader, 
+                _emailTemplateStorage, 
                 from);
         }
     }

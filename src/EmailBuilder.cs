@@ -17,19 +17,19 @@ namespace CASPR.Extensions.Email
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateEngine _templateEngine;
         private readonly EmailMessage _emailMessage;
-        private readonly IEmailTemplateLoader _emailTemplateLoader;
+        private readonly IEmailTemplateStorage _emailTemplateStorage;
         #endregion
 
         #region Constructor
         public EmailBuilder(
             IEmailSender emailSender,
             IEmailTemplateEngine templateEngine,
-            IEmailTemplateLoader emailTemplateLoader,
+            IEmailTemplateStorage emailTemplateStorage,
             EmailAddress defaultFrom)
         {
             _emailSender = emailSender;
             _templateEngine = templateEngine;
-            _emailTemplateLoader = emailTemplateLoader;
+            _emailTemplateStorage = emailTemplateStorage;
             _emailMessage = new EmailMessage
             {
                 FromAddress = defaultFrom
@@ -244,15 +244,15 @@ namespace CASPR.Extensions.Email
         /// Using a template for set subject and body
         /// </summary>
         /// <typeparam name="TModel">The model</typeparam>
-        /// <param name="templateId">The template ID</param>
+        /// <param name="templateName">The template name</param>
         /// <param name="model">The model object</param>
         /// <param name="culture"></param>
         /// <exception cref="EmailTemplateNotFoundException"></exception>
         /// <returns></returns>
-        public EmailBuilder UsingTemplate<TModel>(long templateId, TModel model, CultureInfo culture = null)
+        public EmailBuilder UsingTemplate<TModel>(string templateName, TModel model, CultureInfo culture = null)
         {
-            var template = _emailTemplateLoader
-                .GetTemplateAsync(templateId, culture)
+            var template = _emailTemplateStorage
+                .GetTemplateAsync(templateName, culture)
                 .GetAwaiter()
                 .GetResult();
 
@@ -264,14 +264,14 @@ namespace CASPR.Extensions.Email
             if (!string.IsNullOrEmpty(template.Subject))
             {
                 _emailMessage.Subject = _templateEngine.RenderAsync(
-                    templateKey: $"subject_{templateId}",
+                    templateKey: $"subject_{templateName}",
                     templateContent: template.Subject,
                     model: model,
                     isHtml: false
                     ).GetAwaiter().GetResult();
             }
             _emailMessage.Body = _templateEngine.RenderAsync(
-                templateKey: $"body_{templateId}",
+                templateKey: $"body_{templateName}",
                 templateContent: template.Body,
                 model: model,
                 isHtml: true

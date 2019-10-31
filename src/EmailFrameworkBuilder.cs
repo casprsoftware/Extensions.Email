@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using CASPR.Extensions.Email.Defaults;
 using CASPR.Extensions.Email.Models;
+using CASPR.Extensions.Email.Senders;
+using CASPR.Extensions.Email.TemplateStorages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -22,11 +23,11 @@ namespace CASPR.Extensions.Email
             return this;
         }
 
-        public EmailFrameworkBuilder AddInMemoryTemplateLoader(IDictionary<long, EmailTemplate> templates)
+        public EmailFrameworkBuilder AddInMemoryTemplateStorage(IEnumerable<EmailTemplate> templates)
         {
-            var descriptor = ServiceDescriptor.Transient<IEmailTemplateLoader, NullEmailTemplateLoader>();
+            var descriptor = ServiceDescriptor.Transient<IEmailTemplateStorage, NullEmailTemplateStorage>();
             Services.Remove(descriptor);
-            Services.AddSingleton<IEmailTemplateLoader>(new InMemoryEmailTemplateLoader(templates));
+            Services.AddSingleton<IEmailTemplateStorage>(new InMemoryEmailTemplateStorage(templates));
             return this;
         }
 
