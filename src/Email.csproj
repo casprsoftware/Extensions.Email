@@ -6,7 +6,11 @@
     <RootNamespace>CASPR.Extensions.Email</RootNamespace>
     <Authors>CASPR Software</Authors>
     <Description>Email Framework. Interfaces and base (null) implementations.</Description>
+    <Version>1.0.0-beta1</Version>
+    <PackageId>$(AssemblyName)</PackageId>
     <PackageTags>email, messages</PackageTags>
+    <RepositoryUrl>https://github.com/casprsoftware/Extensions.Email</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
