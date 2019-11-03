@@ -11,6 +11,7 @@
     <PackageTags>email, messages</PackageTags>
     <RepositoryUrl>https://github.com/casprsoftware/Extensions.Email</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Copyright>© CASPR Software. All rights reserved.</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
