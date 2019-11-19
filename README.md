@@ -1,20 +1,24 @@
-# Email Framework
+# Extensions.Email
 
-Email Framework is a lightweight and extensible library for building and sending emails from .NET applications
+A lightweight and extensible library for building and sending emails from .NET applications.
 
 ## Install
 
-`dotnet add package CASPR.Extensions.Email`
+Install the nuget packages `CASPR.Extensions.Email`
 
 ## Setup
 
-Add Email Framework to services.
+Add Email to services.
 
 ```csharp
-services.AddEmail(options=>{
-    // set default from email address
-    options.DefaultFrom = "from@example.com";
-    options.DefaultFromName = "Email Test Program";
+services.AddEmail(builder => {
+    
+    builder.SetOptions(options =>
+    {
+        options.DefaultFrom = "noreply@casprsoftware.com";
+        options.DefaultFromName = "Email Test Program";
+    });
+
 });
 ```
 
@@ -43,3 +47,7 @@ email
     .Send()
     ;
 ```
+
+## Senders
+
+See in [extensions list](https://github.com/casprsoftware/Extensions).
