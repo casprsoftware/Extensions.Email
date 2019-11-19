@@ -1,7 +1,7 @@
 ﻿namespace CASPR.Extensions.Email
 {
     /// <summary>
-    /// Represents global email options
+    /// Global email options
     /// </summary>
     public class EmailOptions
     {
