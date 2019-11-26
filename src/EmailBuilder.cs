@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using CASPR.Extensions.Email.Exceptions;
 using CASPR.Extensions.Email.Models;
@@ -9,180 +9,157 @@ using CASPR.Extensions.Email.Models;
 namespace CASPR.Extensions.Email
 {
     /// <summary>
-    /// Represents email builder.
+    /// The email builder
     /// </summary>
-    public class EmailBuilder
+    public abstract class EmailBuilder
     {
         #region Private Declarations
-        private readonly IEmailSender _emailSender;
         private readonly IEmailTemplateEngine _templateEngine;
-        private readonly EmailMessage _emailMessage;
         private readonly IEmailTemplateStorage _emailTemplateStorage;
         #endregion
 
-        #region Constructor
         public EmailBuilder(
-            IEmailSender emailSender,
-            IEmailTemplateEngine templateEngine,
+            IEmailTemplateEngine templateEngine, 
             IEmailTemplateStorage emailTemplateStorage,
             EmailAddress defaultFrom)
         {
-            _emailSender = emailSender;
             _templateEngine = templateEngine;
             _emailTemplateStorage = emailTemplateStorage;
-            _emailMessage = new EmailMessage
+            Message = new EmailMessage
             {
                 FromAddress = defaultFrom
             };
         }
-        #endregion
+
+        protected EmailMessage Message { get; }
+
+        /// <summary>
+        /// Set FROM email address
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder From(EmailAddress emailAddress)
+        {
+            Message.FromAddress = emailAddress;
+            return this;
+        }
 
         #region Add Email Address to "TO"
+
         /// <summary>
         /// Adds a recipient to the email.
         /// </summary>
-        /// <param name="emailAddress">Email address of recipient.</param>
-        /// <param name="name">Name of recipient.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder To(string emailAddress, string name = null)
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder To(EmailAddress emailAddress)
         {
-            if (string.IsNullOrEmpty(emailAddress))
+            if (emailAddress==null)
             {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(emailAddress));
+                throw new ArgumentException("Email address cannot be null.", nameof(emailAddress));
             }
-            var toEmailAddress = new EmailAddress(emailAddress, name);
-            if (!_emailMessage.ToAddresses.Add(toEmailAddress))
+            if (!Message.ToAddresses.Add(emailAddress))
             {
-                throw new EmailAddressAlreadyAddedException(emailAddress);
+                throw new EmailAddressAlreadyAddedException(emailAddress.Value);
             }
             return this;
         }
 
         /// <summary>
-        /// Adds all recipients in list to email.
+        /// Adds list of recipients to the email.
         /// </summary>
-        /// <param name="emailAddresses">List of recipients.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder To(HashSet<EmailAddress> emailAddresses)
+        /// <param name="emailAddresses"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder To(HashSet<EmailAddress> emailAddresses)
         {
             if (emailAddresses == null)
             {
                 throw new ArgumentNullException(nameof(emailAddresses));
             }
 
-            foreach (var emailAddress in emailAddresses)
-            {
-                if (!_emailMessage.ToAddresses.Add(emailAddress))
-                {
-                    throw new EmailAddressAlreadyAddedException(emailAddress.Value);
-                }
-            }
-
+            emailAddresses
+                .ToList()
+                .ForEach(m=> To(m));
             return this;
         }
+
         #endregion
 
         #region Add Email Address to "CC"
+
         /// <summary>
         /// Adds a Carbon Copy to the email.
         /// </summary>
-        /// <param name="emailAddress">Email address of recipient.</param>
-        /// <param name="name">Name of recipient.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Cc(string emailAddress, string name = null)
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder Cc(EmailAddress emailAddress)
         {
-            if (string.IsNullOrEmpty(emailAddress))
+            if (emailAddress == null)
             {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(emailAddress));
+                throw new ArgumentNullException(nameof(emailAddress));
             }
-            var address = new EmailAddress(emailAddress, name);
-            if (!_emailMessage.CcAddresses.Add(address))
+
+            if (!Message.CcAddresses.Add(emailAddress))
             {
-                throw new EmailAddressAlreadyAddedException(emailAddress);
+                throw new EmailAddressAlreadyAddedException(emailAddress.Value);
             }
             return this;
         }
 
         /// <summary>
-        /// Adds all Carbon Copy in list to an email.
+        /// Adds a Carbon Copy to the email.
         /// </summary>
-        /// <param name="emailAddresses">List of recipients to CC.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Cc(HashSet<EmailAddress> emailAddresses)
+        /// <param name="emailAddresses"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder Cc(HashSet<EmailAddress> emailAddresses)
         {
             if (emailAddresses == null)
             {
                 throw new ArgumentNullException(nameof(emailAddresses));
             }
-
-            foreach (var emailAddress in emailAddresses)
-            {
-                if (!_emailMessage.CcAddresses.Add(emailAddress))
-                {
-                    throw new EmailAddressAlreadyAddedException(emailAddress.Value);
-                }
-            }
-
+            emailAddresses.ToList()
+                .ForEach(m=>Cc(m));
             return this;
         }
+
         #endregion
 
         #region Add Email Address to "BCC"
+
         /// <summary>
         /// Adds a blind carbon copy to the email.
         /// </summary>
-        /// <param name="emailAddress">Email address of recipient.</param>
-        /// <param name="name">Name of recipient.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Bcc(string emailAddress, string name = null)
+        /// <param name="emailAddress"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder Bcc(EmailAddress emailAddress)
         {
-            if (string.IsNullOrEmpty(emailAddress))
+            if (emailAddress == null)
             {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(emailAddress));
+                throw new ArgumentNullException(nameof(emailAddress));
             }
-            var address = new EmailAddress(emailAddress, name);
-            if (!_emailMessage.BccAddresses.Add(address))
+
+            if (!Message.BccAddresses.Add(emailAddress))
             {
-                throw new EmailAddressAlreadyAddedException(emailAddress);
+                throw new EmailAddressAlreadyAddedException(emailAddress.Value);
             }
+
             return this;
         }
 
         /// <summary>
-        /// Adds all blind carbon copy in list to the email.
+        /// Adds a blind carbon copy to the email.
         /// </summary>
-        /// <param name="emailAddresses">List of recipients.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Bcc(HashSet<EmailAddress> emailAddresses)
+        /// <param name="emailAddresses"></param>
+        /// <returns></returns>
+        public virtual EmailBuilder Bcc(HashSet<EmailAddress> emailAddresses)
         {
             if (emailAddresses == null)
             {
                 throw new ArgumentNullException(nameof(emailAddresses));
             }
 
-            foreach (var emailAddress in emailAddresses)
-            {
-                if (!_emailMessage.BccAddresses.Add(emailAddress))
-                {
-                    throw new EmailAddressAlreadyAddedException(emailAddress.Value);
-                }
-            }
+            emailAddresses.ToList()
+                .ForEach(m=>Bcc(m));
 
-            return this;
-        }
-        #endregion
-
-        #region Set Priority
-
-        public EmailBuilder HighPriority()
-        {
-            _emailMessage.Priority = EmailPriority.High;
-            return this;
-        }
-
-        public EmailBuilder LowPriority()
-        {
-            _emailMessage.Priority = EmailPriority.Low;
             return this;
         }
 
@@ -191,65 +168,67 @@ namespace CASPR.Extensions.Email
         /// <summary>
         /// Sets the ReplyTo on the email. 
         /// </summary>
-        /// <param name="emailAddress">The ReplyTo email address.</param>
-        /// <param name="name">Name of the ReplyTo.</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder ReplyTo(string emailAddress, string name = null)
-        {
-            if (string.IsNullOrEmpty(emailAddress))
-            {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(emailAddress));
-            }
-
-            _emailMessage.ReplyToAddress = new EmailAddress(emailAddress, name);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Sets a subject of the email.
-        /// </summary>
-        /// <param name="subject">Content of the subject</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Subject(string subject)
-        {
-            if (string.IsNullOrEmpty(subject))
-            {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(subject));
-            }
-
-            _emailMessage.Subject = subject;
-            return this;
-        }
-
-        /// <summary>
-        /// Adds a body to the email.
-        /// </summary>
-        /// <param name="body">The content of the body.</param>
-        /// <param name="isHtml">True if body is HTML, false for plain text (optional).</param>
-        /// <returns>Current instance of the <see cref="EmailBuilder"/>.</returns>
-        public EmailBuilder Body(string body, bool isHtml = false)
-        {
-            if (string.IsNullOrEmpty(body))
-            {
-                throw new ArgumentException("Value cannot be null or empty.", nameof(body));
-            }
-
-            _emailMessage.Body = body;
-            _emailMessage.IsHtml = isHtml;
-            return this;
-        }
-
-        /// <summary>
-        /// Using a template for set subject and body
-        /// </summary>
-        /// <typeparam name="TModel">The model</typeparam>
-        /// <param name="templateName">The template name</param>
-        /// <param name="model">The model object</param>
-        /// <param name="culture"></param>
-        /// <exception cref="EmailTemplateNotFoundException"></exception>
+        /// <param name="emailAddress"></param>
         /// <returns></returns>
-        public EmailBuilder UsingTemplate<TModel>(string templateName, TModel model, CultureInfo culture = null)
+        public virtual EmailBuilder ReplyTo(EmailAddress emailAddress)
+        {
+            if (emailAddress == null)
+            {
+                throw new ArgumentNullException(nameof(emailAddress));
+            }
+
+            Message.ReplyToAddress = emailAddress;
+
+            return this;
+        }
+
+        public virtual EmailBuilder HighPriority()
+        {
+            Message.Priority = EmailPriority.High;
+            return this;
+        }
+
+        public virtual EmailBuilder LowPriority()
+        {
+            Message.Priority = EmailPriority.Low;
+            return this;
+        }
+
+        public virtual EmailBuilder Subject(string subject)
+        {
+            if (subject == null)
+            {
+                throw new ArgumentNullException(nameof(subject));
+            }
+
+            Message.Subject = subject;
+            return this;
+        }
+
+        public virtual EmailBuilder Body(string body, bool isHtml = false)
+        {
+            if (body == null)
+            {
+                throw new ArgumentNullException(nameof(body));
+            }
+
+            Message.Body = body;
+            Message.IsHtml = isHtml;
+            return this;
+        }
+
+        public virtual EmailBuilder Attach(EmailAttachment attachment)
+        {
+            if (attachment == null)
+            {
+                throw new ArgumentNullException(nameof(attachment));
+            }
+
+            Message.Attachments.Add(attachment);
+            return this;
+        }
+
+        public virtual EmailBuilder UsingTemplate<TModel>(string templateName, TModel model, CultureInfo culture = null)
         {
             var template = _emailTemplateStorage
                 .GetTemplateAsync(templateName, culture)
@@ -263,54 +242,24 @@ namespace CASPR.Extensions.Email
 
             if (!string.IsNullOrEmpty(template.Subject))
             {
-                _emailMessage.Subject = _templateEngine.RenderAsync(
+                Message.Subject = _templateEngine.RenderAsync(
                     templateKey: $"subject_{templateName}",
                     templateContent: template.Subject,
                     model: model,
                     isHtml: false
-                    ).GetAwaiter().GetResult();
+                ).GetAwaiter().GetResult();
             }
-            _emailMessage.Body = _templateEngine.RenderAsync(
+            Message.Body = _templateEngine.RenderAsync(
                 templateKey: $"body_{templateName}",
                 templateContent: template.Body,
                 model: model,
                 isHtml: true
-                ).GetAwaiter().GetResult();
+            ).GetAwaiter().GetResult();
 
             return this;
         }
 
-        public EmailBuilder Attach(EmailAttachment attachment)
-        {
-            if (attachment == null)
-            {
-                throw new ArgumentNullException(nameof(attachment));
-            }
-
-            _emailMessage.Attachments.Add(attachment);
-            return this;
-        }
-
-        #region Send Message
-        /// <summary>
-        /// Sends the email.
-        /// </summary>
-        public void Send()
-        {
-            SendAsync()
-                .GetAwaiter()
-                .GetResult();
-        }
-
-        /// <summary>
-        /// Sends the email.
-        /// </summary>
-        /// <param name="token">Cancellation token for the task.</param>
-        /// <returns>The sending task, <see cref="Task"/>.</returns>
-        public async Task SendAsync(CancellationToken? token = null)
-        {
-            await _emailSender.SendAsync(_emailMessage, token);
-        }
-        #endregion
+        public abstract void Send();
+        public abstract Task SendAsync();
     }
 }

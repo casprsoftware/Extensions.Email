@@ -37,7 +37,7 @@ namespace CASPR.Extensions.Email
             }
             var from = new EmailAddress(_emailOptions.DefaultFrom, _emailOptions.DefaultFromName);
             
-            return new EmailBuilder(
+            return new DefaultEmailBuilder(
                 _emailSender, 
                 _emailTemplateEngine,
                 _emailTemplateStorage, 
