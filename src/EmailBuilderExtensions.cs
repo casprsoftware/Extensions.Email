@@ -6,7 +6,7 @@ namespace CASPR.Extensions.Email
     public static class EmailBuilderExtensions
     {
         /// <summary>
-        /// Add email address to recipient
+        /// Adds recipient to the email
         /// </summary>
         /// <param name="emailBuilder"></param>
         /// <param name="email"></param>
@@ -23,7 +23,7 @@ namespace CASPR.Extensions.Email
         }
 
         /// <summary>
-        /// Add email address to carbon copy
+        /// Adds a carbon copy to the email
         /// </summary>
         /// <param name="emailBuilder"></param>
         /// <param name="email"></param>
@@ -40,7 +40,7 @@ namespace CASPR.Extensions.Email
         }
 
         /// <summary>
-        /// Add email address to blind carbon copy
+        /// Adds a blind carbon copy to the email
         /// </summary>
         /// <param name="emailBuilder"></param>
         /// <param name="email"></param>

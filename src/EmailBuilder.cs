@@ -47,7 +47,7 @@ namespace CASPR.Extensions.Email
         #region Add Email Address to "TO"
 
         /// <summary>
-        /// Adds a recipient to the email.
+        /// Adds a recipient to the email
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace CASPR.Extensions.Email
         }
 
         /// <summary>
-        /// Adds list of recipients to the email.
+        /// Adds list of recipients to the email
         /// </summary>
         /// <param name="emailAddresses"></param>
         /// <returns></returns>
@@ -87,7 +87,7 @@ namespace CASPR.Extensions.Email
         #region Add Email Address to "CC"
 
         /// <summary>
-        /// Adds a Carbon Copy to the email.
+        /// Adds a Carbon Copy to the email
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
@@ -106,7 +106,7 @@ namespace CASPR.Extensions.Email
         }
 
         /// <summary>
-        /// Adds a Carbon Copy to the email.
+        /// Adds a Carbon Copy to the email
         /// </summary>
         /// <param name="emailAddresses"></param>
         /// <returns></returns>
@@ -126,7 +126,7 @@ namespace CASPR.Extensions.Email
         #region Add Email Address to "BCC"
 
         /// <summary>
-        /// Adds a blind carbon copy to the email.
+        /// Adds a blind carbon copy to the email
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
@@ -146,7 +146,7 @@ namespace CASPR.Extensions.Email
         }
 
         /// <summary>
-        /// Adds a blind carbon copy to the email.
+        /// Adds a blind carbon copy to the email
         /// </summary>
         /// <param name="emailAddresses"></param>
         /// <returns></returns>
@@ -166,7 +166,7 @@ namespace CASPR.Extensions.Email
         #endregion
 
         /// <summary>
-        /// Sets the ReplyTo on the email. 
+        /// Sets the ReplyTo on the email
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
