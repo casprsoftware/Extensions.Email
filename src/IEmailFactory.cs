@@ -1,7 +1,7 @@
 ﻿namespace CASPR.Extensions.Email
 {
     /// <summary>
-    /// Represents the email factory
+    /// Email factory
     /// </summary>
     public interface IEmailFactory
     {

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using CASPR.Extensions.Email.Exceptions;
+using CASPR.Extensions.Email.Models;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using CASPR.Extensions.Email.Exceptions;
-using CASPR.Extensions.Email.Models;
 
 namespace CASPR.Extensions.Email
 {
     /// <summary>
-    /// The email builder
+    /// The abstract email builder
     /// </summary>
     public abstract class EmailBuilder
     {
@@ -18,8 +18,10 @@ namespace CASPR.Extensions.Email
         private readonly IEmailTemplateStorage _emailTemplateStorage;
         #endregion
 
+        #region Constructors
+
         public EmailBuilder(
-            IEmailTemplateEngine templateEngine, 
+            IEmailTemplateEngine templateEngine,
             IEmailTemplateStorage emailTemplateStorage,
             EmailAddress defaultFrom)
         {
@@ -30,6 +32,8 @@ namespace CASPR.Extensions.Email
                 FromAddress = defaultFrom
             };
         }
+
+        #endregion
 
         protected EmailMessage Message { get; }
 
@@ -53,7 +57,7 @@ namespace CASPR.Extensions.Email
         /// <returns></returns>
         public virtual EmailBuilder To(EmailAddress emailAddress)
         {
-            if (emailAddress==null)
+            if (emailAddress == null)
             {
                 throw new ArgumentException("Email address cannot be null.", nameof(emailAddress));
             }
@@ -78,7 +82,7 @@ namespace CASPR.Extensions.Email
 
             emailAddresses
                 .ToList()
-                .ForEach(m=> To(m));
+                .ForEach(m => To(m));
             return this;
         }
 
@@ -117,7 +121,7 @@ namespace CASPR.Extensions.Email
                 throw new ArgumentNullException(nameof(emailAddresses));
             }
             emailAddresses.ToList()
-                .ForEach(m=>Cc(m));
+                .ForEach(m => Cc(m));
             return this;
         }
 
@@ -158,7 +162,7 @@ namespace CASPR.Extensions.Email
             }
 
             emailAddresses.ToList()
-                .ForEach(m=>Bcc(m));
+                .ForEach(m => Bcc(m));
 
             return this;
         }

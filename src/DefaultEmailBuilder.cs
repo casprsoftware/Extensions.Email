@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
-using System.Threading.Tasks;
-using CASPR.Extensions.Email.Exceptions;
+﻿using System.Threading.Tasks;
 using CASPR.Extensions.Email.Models;
 
 namespace CASPR.Extensions.Email
@@ -13,6 +8,8 @@ namespace CASPR.Extensions.Email
         #region Private Declarations
         private readonly IEmailSender _emailSender;
         #endregion
+
+        #region Constructor
 
         public DefaultEmailBuilder(
             IEmailSender emailSender,
@@ -24,10 +21,9 @@ namespace CASPR.Extensions.Email
             _emailSender = emailSender;
         }
 
+        #endregion
+
         #region Send Message
-        /// <summary>
-        /// Sends the email.
-        /// </summary>
         public override void Send()
         {
             SendAsync()
@@ -39,7 +35,6 @@ namespace CASPR.Extensions.Email
         {
             await _emailSender.SendAsync(Message);
         }
-
         #endregion
     }
 }

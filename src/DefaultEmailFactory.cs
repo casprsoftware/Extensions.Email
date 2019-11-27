@@ -13,7 +13,7 @@ namespace CASPR.Extensions.Email
         private readonly IEmailSender _emailSender;
 
         public DefaultEmailFactory(
-            IOptions<EmailOptions> emailOptions, 
+            IOptions<EmailOptions> emailOptions,
             IEmailTemplateEngine emailTemplateEngine,
             IEmailTemplateStorage emailTemplateStorage,
             IEmailSender emailSender,
@@ -30,17 +30,17 @@ namespace CASPR.Extensions.Email
         {
             if (_logger.IsEnabled(LogLevel.Debug))
             {
-                _logger.LogDebug("Create an email [DefaultFrom={From}, Sender={Sender}, TemplateRenderer={TemplateRenderer}]", 
+                _logger.LogDebug("Create an email [DefaultFrom={From}, Sender={Sender}, TemplateRenderer={TemplateRenderer}]",
                     _emailOptions.DefaultFrom,
                     _emailSender.GetType().Name,
                     _emailTemplateEngine.GetType().Name);
             }
             var from = new EmailAddress(_emailOptions.DefaultFrom, _emailOptions.DefaultFromName);
-            
+
             return new DefaultEmailBuilder(
-                _emailSender, 
+                _emailSender,
                 _emailTemplateEngine,
-                _emailTemplateStorage, 
+                _emailTemplateStorage,
                 from);
         }
     }
