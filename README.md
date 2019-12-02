@@ -1,14 +1,14 @@
 # Extensions.Email
 
-A lightweight and extensible library for building and sending emails from .NET applications.
+.NET standard library for building and sending emails.
 
-## Install
+## Installation
 
-Install the nuget packages `CASPR.Extensions.Email`
+Use the nuget package manager to install the package `CASPR.Extensions.Email`.
 
 ## Setup
 
-Add Email to services.
+Add Email to Dependency Injection (`IServiceCollection`).
 
 ```csharp
 services.AddEmail(builder => {
@@ -37,7 +37,11 @@ email
     .Subject("...")
     .Send()
     ;
+```
 
+Using a template.
+
+```csharp
 // every time you want to send new email, call Create()
 email = _emailFactory.Create();
 // using a template
@@ -48,6 +52,10 @@ email
     ;
 ```
 
-## Senders
+## Contributing
 
-See in [extensions list](https://github.com/casprsoftware/Extensions).
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
