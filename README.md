@@ -12,13 +12,23 @@ Add Email to Dependency Injection (`IServiceCollection`).
 
 ```csharp
 services.AddEmail(builder => {
-    
+
+    // set defaults
     builder.SetOptions(options =>
     {
         options.DefaultFrom = "noreply@casprsoftware.com";
         options.DefaultFromName = "Email Test Program";
     });
 
+    // register templates (optional)
+    emailBuilder.AddInMemoryTemplateStorage(new[]
+    {
+        new EmailTemplate("template_1")
+        {
+            Subject = "template subject",
+            Body = "template body.."
+        }
+    });
 });
 ```
 
@@ -47,7 +57,7 @@ email = _emailFactory.Create();
 // using a template
 email
     .To("user@email.com")
-    .UsingTemplate<NewsLetterModel>("newsletter", model)
+    .UsingTemplate<NewsLetterModel>("template_1", model)
     .Send()
     ;
 ```
