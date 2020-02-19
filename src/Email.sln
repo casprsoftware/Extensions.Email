@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Queue", "Queue\Queue.csproj", "{C3455638-E6D1-44A9-A5D8-0332168AE8F0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Razor", "Razor\Razor.csproj", "{E7E9E24E-4662-4738-81CD-60EB6A01C7AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,6 +18,9 @@ Global
 		{C3455638-E6D1-44A9-A5D8-0332168AE8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C3455638-E6D1-44A9-A5D8-0332168AE8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3455638-E6D1-44A9-A5D8-0332168AE8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E9E24E-4662-4738-81CD-60EB6A01C7AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E9E24E-4662-4738-81CD-60EB6A01C7AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E9E24E-4662-4738-81CD-60EB6A01C7AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

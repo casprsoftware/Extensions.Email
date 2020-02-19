@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>CASPR.Extensions.Email</RootNamespace>
+    <AssemblyName>CASPR.Extensions.Email.Razor</AssemblyName>
+    <Authors>CASPR Software</Authors>
+    <Description>Render emails by Razor template engine.</Description>
+    <Version>1.0.0-beta1</Version>
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageTags>email, messages, razor</PackageTags>
+    <RepositoryUrl>https://github.com/casprsoftware/Extensions.Email</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>© CASPR Software. All rights reserved.</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RazorLight" Version="2.0.0-beta1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
