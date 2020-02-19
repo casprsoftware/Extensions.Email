@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>CASPR.Extensions.Email</AssemblyName>
+    <AssemblyName>CASPR.Extensions.Email.Core</AssemblyName>
     <RootNamespace>CASPR.Extensions.Email</RootNamespace>
     <Authors>CASPR Software</Authors>
     <Description>Email Framework. Interfaces and base (null) implementations.</Description>
