@@ -4,7 +4,12 @@
 
 ## Installation
 
-Use the nuget package manager to install the package `CASPR.Extensions.Email`.
+Use the nuget package manager to install the package(s):
+
+- `CASPR.Extensions.Email.Core` - Core library.
+- `CASPR.Extensions.Email.SendGrid` - SendGrid email sender.
+- `CASPR.Extensions.Email.Razor` - Razor email templates.
+- `CASPR.Extensions.Email.Queue` - Sending emails in background task.
 
 ## Setup
 
@@ -13,14 +18,14 @@ Add Email to Dependency Injection (`IServiceCollection`).
 ```csharp
 services.AddEmail(builder => {
 
-    // set defaults
+    // Set defaults
     builder.SetOptions(options =>
     {
         options.DefaultFrom = "noreply@casprsoftware.com";
         options.DefaultFromName = "Email Test Program";
     });
 
-    // register templates (optional)
+    // Register templates (optional)
     emailBuilder.AddInMemoryTemplateStorage(new[]
     {
         new EmailTemplate("template_1")
@@ -29,6 +34,17 @@ services.AddEmail(builder => {
             Body = "template body.."
         }
     });
+
+    // Add SendGrid sender (optional)
+    builder.AddSendGridSender(options => {
+        options.ApiKey = "Your Sendgrid API key";
+    });
+
+    // Add Razor template engine (optional)
+    emailBuilder.AddRazorTemplateEngine();
+
+    // Add queue and the end of the configuration (optional)
+    emailBuilder.AddQueue();
 });
 ```
 
